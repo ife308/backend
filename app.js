@@ -8,9 +8,10 @@ const cors = require("cors");
 
 const app = express();
 
+const corsOrigin = process.env.CORS_ORIGIN || 'http://localhost:3000';
 app.use(
     cors({
-      origin: 'http://localhost:3000',
+      origin: corsOrigin,
       credentials: true,
     })
   );
@@ -20,13 +21,19 @@ const sessionStore = new MySQLStore({}, db);
 
 app.use(session({
     key: 'user_cookies',
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 24
+    }
   }));
-// app.set('trust proxy', 1);
+if (process.env.NODE_ENV === 'production') {
+app.set('trust proxy', 1);
+}
 app.use(route);
 
   app.get('/', (req, res) => {
