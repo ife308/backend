@@ -46,6 +46,6 @@ app.get('/api/users', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`server is listening on http://localhost:${PORT}`);
+    console.log(`server is listening on http://0.0.0.0:${PORT}`);
 
 })
