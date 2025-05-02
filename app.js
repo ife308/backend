@@ -24,7 +24,7 @@ app.use(session({
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true }
+    cookie: { secure: false }
   }));
 // app.set('trust proxy', 1);
 app.use(route);
