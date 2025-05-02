@@ -26,7 +26,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: true }
   }));
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1);
 app.use(route);
 
   app.get('/', (req, res) => {
