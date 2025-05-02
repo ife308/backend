@@ -20,12 +20,13 @@ const sessionStore = new MySQLStore({}, db);
 
 app.use(session({
     key: 'user_cookies',
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: { secure: true }
   }));
+app.set('trust proxy', 1);
 app.use(route);
 
   app.get('/', (req, res) => {
