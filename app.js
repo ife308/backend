@@ -19,6 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const sessionStore = new MySQLStore({}, db);
 
+if (process.env.NODE_ENV === 'production') {
+app.set('trust proxy', 1);
+}
 app.use(session({
     key: 'user_cookies',
     secret: process.env.SESSION_SECRET || 'your-secret-key',
@@ -27,13 +30,11 @@ app.use(session({
     saveUninitialized: false,
     cookie: { 
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: 'None',
         maxAge: 1000 * 60 * 60 * 24
     }
   }));
-if (process.env.NODE_ENV === 'production') {
-app.set('trust proxy', 1);
-}
+
 app.use(route);
 
   app.get('/', (req, res) => {
